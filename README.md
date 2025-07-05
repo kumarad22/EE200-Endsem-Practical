@@ -10,10 +10,6 @@
 - [Technologies Used](#technologies-used)
 - [Part 1: Image Hybridization](#part-1-image-hybridization)
 - [Part 2: Audio Denoising](#part-2-audio-denoising)
-- [Usage](#usage)
-- [Results](#results)
-- [References](#references)
-- [Author](#author)
 
 ---
 
@@ -79,27 +75,15 @@ This project explores frequency-domain filtering techniques using both 2D and 1D
 
 - Read noisy audio file using Librosa
 - Normalize and plot waveform and spectrogram
-- Compute DFT and STFT
+- Compute FFT, STFT and PSD and plot them
 
 ### 🎚️ Denoising Techniques
 
-1. **Spectral Gating Only**
-2. **FFT Magnitude Thresholding**
-3. **Bandpass Filtering + Magnitude Threshold**
-4. **Combined Approach (All Above)**
-
-### 🔊 Output Files
-
-- `output_a_spectral_gating.wav`
-- `output_b_fft_threshold.wav`
-- `output_c_bandpass_fft_thresh.wav`
-- `output_d_combined.wav`
-
-Each output demonstrates varying levels of improvement in clarity.
+1. **Identified frequencies range where most of the noise content was present through PSD & FFT plots**
+2. **Designed a Butterworth Bandstop Filter to suppress these frequencies, got a much clearer output**
+3. **Computed FFT, STFT and PSD and drew their plots once again after applying filter**
 
 ---
-
-## 🚀 Usage
 
 ### 1. Install Dependencies
 
