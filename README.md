@@ -1,91 +1,80 @@
-# 🎧📷 EE200 Endsem Practical – Hybrid Images & Audio Denoising
 
-> A dual-part project demonstrating frequency-domain processing using Discrete Fourier Transform (DFT) on both images and audio signals.
+# 📁 EE200 Endsem Practical Project
 
----
+### 🧩 Overview
 
-## 📌 Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Part 1: Image Hybridization](#part-1-image-hybridization)
-- [Part 2: Audio Denoising](#part-2-audio-denoising)
+This project is divided into **two main tasks** that explore signal processing using the Discrete Fourier Transform (DFT), frequency-domain filtering, and digital filtering techniques.
 
----
-
-## 🧠 Overview
-
-This project explores frequency-domain filtering techniques using both 2D and 1D Discrete Fourier Transform (DFT) and Short-Time Fourier Transform (STFT) for two distinct applications:
-
-- 📷 **Image Hybridization** — combining the low-frequency content of one image and the high-frequency content of another.
-- 🎧 **Audio Denoising** — cleaning noisy audio using spectral gating, bandpass filters, and FFT-based techniques.
+- **Q1: Frequency Mixer – "Beauty and the Blur"**  
+  Combine two images into a single hybrid image by manipulating their frequency components.
+  
+- **Q2: Frequency De-mixer – "Unwanted Solo"**  
+  Denoise an audio signal using Butterworth filters and time-frequency analysis.
 
 ---
 
-## ✨ Features
+### 📷 Question 1 – Hybrid Image Generation
 
-- FFT-based hybrid image creation
-- Gaussian low-pass and high-pass filters
-- Centered FFT visualization
-- Multiple audio denoising pipelines using:
-  - Spectral Gating
-  - FFT Thresholding
-  - Bandpass + Thresholding
-  - Combined Techniques
-- Bode magnitude plots and visual FFT interpretation
-- STFT-based dynamic frequency analysis
+#### 🔬 Objective
+Create a **hybrid image** by fusing:
+- a **low-pass filtered image** (retains smooth features)
+- a **high-pass filtered image** (retains edges and details)
 
----
-
-## 🛠️ Technologies Used
-
-- Python
-- NumPy
-- SciPy
-- Matplotlib
-- Librosa
-- Jupyter Notebook (for development & visualization)
+#### ⚙️ Steps
+1. Convert the given RGB grayscale images to single-channel format.
+2. Compute the **2D FFT** of both images and center the low frequencies.
+3. Apply:
+   - **Gaussian low-pass filter** to one image
+   - **Gaussian high-pass filter** to the other
+4. Take the inverse FFT to recover spatial-domain filtered images.
+5. **Fuse** the images with tuned weights to get a hybrid image:
+   - `w_low = 0.6`
+   - `w_high = 0.4`
+6. Visualize the magnitude spectra and downsampled outputs.
 
 ---
 
-## 📷 Part 1: Image Hybridization – *Beauty and the Blur*
+### 🎵 Question 2 – Audio Denoising
 
-### 🔍 Method Summary
+#### 🔬 Objective
+Remove **unwanted instrumental components** from an audio signal by analyzing and filtering in the frequency domain.
 
-- Convert grayscale images to single channel
-- Apply FFT, center-shift, and visualize magnitude
-- Apply Gaussian filters:
-  - High-pass (σ=5) to the cat image
-  - Low-pass (σ=20) to the dog image
-- Perform inverse FFT to get filtered images
-- Fuse filtered images with weights:  
-  `final_image = 0.4 × high_freq + 0.6 × low_freq`
-
-### 📸 Visual Outputs
-
-- Original FFT spectra
-- Rotated & filtered FFTs
-- Hybrid image output (raw + downsampled)
-
----
-
-## 🎧 Part 2: Audio Denoising – *Unwanted Solo*
-
-### 🎼 Pre-processing
-
-- Read noisy audio file using Librosa
-- Normalize and plot waveform and spectrogram
-- Compute FFT, STFT and PSD and plot them
-
-### 🎚️ Denoising Techniques
-
-1. **Identified frequencies range where most of the noise content was present through PSD & FFT plots**
-2. **Designed a Butterworth Bandstop Filter to suppress these frequencies, got a much clearer output**
-3. **Computed FFT, STFT and PSD and drew their plots once again after applying filter**
+#### ⚙️ Steps
+1. Load and normalize the audio.
+2. Plot:
+   - **Waveform**
+   - **Spectrogram (STFT)**
+   - **FFT magnitude spectrum**
+   - **Power Spectral Density (PSD)** using Welch's method
+3. Identify **noisy frequency bands** (~1000 Hz to 6000 Hz).
+4. Apply a **Butterworth bandstop filter** with:
+   - order = 6  
+   - cutoff = [1000 Hz, 6000 Hz]
+5. Re-plot FFT, STFT, and PSD for the filtered signal.
 
 ---
 
-### 1. Install Dependencies
+### 🧪 Results
 
+#### ✅ Image Task
+- Successfully produced a hybrid image perceptible differently from near and far distances.
+- Used frequency-domain visualizations to confirm component contributions.
+
+#### ✅ Audio Task
+- High-energy frequencies identified and removed via filtering.
+- Resulting signal showed **significant noise suppression** in the stopband.
+
+---
+
+### 📎 Resources & References
+
+1. **Oliva, A., Torralba, A., & Schyns, P. G.** (2006). *Hybrid Images*. ACM Transactions on Graphics, 25(3), 527–532.
+2. **Cooley, J. W., & Tukey, J. W.** (1965). *An Algorithm for the Machine Calculation of Complex Fourier Series*. Mathematics of Computation, 19(90), 297–301.
+3. **Butterworth, S.** (1930). *On the Theory of Filter Amplifiers*. Wireless Engineer, 7(6), 536–541.
+
+---
+
+### ▶️ Install Dependencies
+ 
 ```bash
-pip install numpy scipy matplotlib librosa
+pip install numpy scipy matplotlib librosa soundfile opencv-python
